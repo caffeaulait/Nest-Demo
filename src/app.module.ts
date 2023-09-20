@@ -6,7 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmConfigService } from './config/typeorm.config';
 
 const cookieSession = require('cookie-session');
@@ -35,7 +35,7 @@ const cookieSession = require('cookie-session');
   controllers: [AppController],
 })
 export class AppModule {
-  constructor() {
+  constructor(private configService: ConfigService) {
     console.log(`current env is: ${process.env.NODE_ENV}`);
   }
 
@@ -43,7 +43,7 @@ export class AppModule {
     consumer
       .apply(
         cookieSession({
-          keys: ['randomkey'],
+          keys: [this.configService.get<string>('COOKIE_KEY')],
         }),
       )
       .forRoutes('*');

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
-import { User } from '../user/user.entity';
-import { Report } from '../report/report.entity';
+// import { User } from '../user/user.entity';
+// import { Report } from '../report/report.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -14,9 +14,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     return {
       type: 'sqlite',
       database: this.configService.get<string>('DB_NAME'),
-      entities: [User, Report],
+      //   entities: [User, Report],
       synchronize: true,
-      //   autoLoadEntities: true
+      autoLoadEntities: true,
     };
   }
 }
